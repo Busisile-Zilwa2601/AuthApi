@@ -1,0 +1,25 @@
+bin/
+obj/
+out/
+
+## Visual Studio files
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Publish files
+*.publish.xml
+
+## NuGet packages
+*.nupkg
+packages/
+
+## Dependency cache
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+## Logs
+*.log
