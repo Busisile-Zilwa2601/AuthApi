@@ -5,6 +5,7 @@ using AuthApi.Helpers;
 using System.Text;
 using AutoMapper;
 using System.Security.Cryptography;
+using System.Text.RegularExpressions;
 
 namespace AuthApi.Service
 {
@@ -29,6 +30,11 @@ namespace AuthApi.Service
             if (existingUser.Result != null)
             {
                 throw new InvalidOperationException("User with this email already exists.");
+            }
+
+            if (!IsValidPassword(request.Password))
+            {
+                throw new InvalidOperationException("Incorret password format and should be more than 9 Charectors ");
             }
 
             var salt = GenerateSalt();
@@ -153,6 +159,12 @@ namespace AuthApi.Service
             refreshToken.ExpiresAt = DateTime.MinValue;
 
             await _refreshTokenContext.UpdateAsync(refreshToken);
+        }
+
+        private bool IsValidPassword(string password)
+        {
+            var pattern = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{6,}$";
+            return Regex.IsMatch(password, pattern);
         }
     }
 }
